@@ -260,6 +260,7 @@ def evaluate(cfg: Config, policy, n_episodes: int, trace: bool = False) -> Dict:
         if trace and k == 0:
             q_trace = qs
     out = {k: float(np.nanmean([e[k] for e in per])) for k in per[0]}
+    out["delay_slots"] = out["backlog_bits"] / max(out["admitted_bits"], 1e-12)
     out.update({f"{k}_std": float(np.nanstd([e[k] for e in per])) for k in ("EE_kbitJ", "outage", "backlog_bits")})
     out.update({f"share_M{M}": counts[i] / nslots for i, M in enumerate(cfg.mod_orders)})
     out["P_mean"] = psum / nslots

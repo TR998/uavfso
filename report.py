@@ -28,7 +28,7 @@ def aggregate(main: pd.DataFrame) -> pd.DataFrame:
         for c in ("EE_kbitJ", "EE_nohover_kbitJ", "outage", "BER_deliv", "BER_all", "backlog_bits",
                   "delay_slots", "drop_rate", "share_M2", "P_mean"):
             r[c] = g[c].mean()
-            r[c + "_std"] = g[c].std(ddof=0) if len(g) > 1 else np.nan
+            r[c + "_std"] = g[c].std(ddof=1) if len(g) > 1 else np.nan
         rows.append(r)
     a = pd.DataFrame(rows).set_index("scheme")
     return a.reindex([s for s in ORDER if s in a.index])
@@ -109,7 +109,7 @@ def figures(cfg: Config, root: Path, logs: dict, trace, sens):
         plt.figure(figsize=(6, 4))
         for sch, v in sm.items():
             nm = 2 * (v - lo) / (hi - lo + 1e-12) - 1
-            mu, sd = nm.mean(0), nm.std(0)
+            mu, sd = nm.mean(0), nm.std(0, ddof=1)
             x = np.arange(len(mu)) + w
             plt.plot(x, mu, lw=1.2, label=DISPLAY.get(sch, sch)); plt.fill_between(x, mu - sd, mu + sd, alpha=0.15)
         plt.xlabel("Training episode"); plt.ylabel("Normalized return"); plt.legend(); plt.grid(alpha=0.3)

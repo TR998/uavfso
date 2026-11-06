@@ -1,0 +1,8 @@
+scheme,n_seeds,EE_kbitJ,outage_pct,backlog_bits
+Heuristic,1,1.624,42.34,4855
+Threshold,1,2.319,24.79,4200
+sac_only,3,2.410 ± 0.013,26.23 ± 1.14,3958
+sac_lstm,3,2.386 ± 0.019,22.56 ± 1.09,4148
+original_design,3,2.401 ± 0.013,27.58 ± 0.87,3937
+proposed_beta099,3,2.406 ± 0.019,23.24 ± 0.82,4081
+Perfect-CSI,1,2.901,13.98,2336

@@ -57,4 +57,4 @@ The `results/` folder contains the outputs used in the paper:
 - `default/ua_threshold_default.csv`, `hover_vib/ua_threshold_hover_vib.csv`: all 72 UA-threshold configurations on the 50 test episodes.
 - `hover_vib/summary_seeds0-2.csv`: rotor-vibration family (Table 13).
 
-Means in Tables 8-11 are computed over seeds 0-2.
+Means in Tables 8-11 are computed over seeds 0-2. All standard deviations over training seeds are sample standard deviations (denominator n - 1), the convention of the paired t-test; `python verify_seed_stats.py` recomputes the marginal and paired statistics (Tables 8-12) from `results/default/main_per_seed.csv`. The delay is the Little's-law estimate of the mean queueing delay of admitted bits: the average backlog divided by the admitted throughput (arrived minus dropped bits per slot); in the released files it is computed from the stored backlog and served throughput, or from the drop rate for the UA-threshold files.

@@ -1,0 +1,3 @@
+scheme,n_seeds,dEE_kbitJ,dOutage_points,seeds_lower_outage,t
+sac_lstm,5,-0.007 ± 0.023,-1.14 ± 0.37,5/5,-6.81
+proposed_beta099,5,-0.005 ± 0.017,-1.03 ± 1.22,4/5,-1.9

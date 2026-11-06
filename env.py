@@ -126,6 +126,7 @@ class MetricsAccumulator:
         c = self.cfg
         a = {k: np.asarray(v) for k, v in self.data.items()}
         backlog = a["queue_after"].mean()
+        admitted = (a["arrival"] - a["drop"]).mean()
         return dict(
             EE_kbitJ=a["mu"].sum() / a["energy"].sum() / 1e3,
             EE_nohover_kbitJ=a["mu"].sum() / a["energy_nohover"].sum() / 1e3,
@@ -133,7 +134,8 @@ class MetricsAccumulator:
             BER_deliv=float(np.mean(self.ber_deliv)) if self.ber_deliv else float("nan"),
             BER_all=a["ber"].mean(),
             backlog_bits=backlog,
-            delay_slots=backlog / c.arrival_bits_per_slot,
+            delay_slots=backlog / max(admitted, 1e-12),
+            admitted_bits=admitted,
             drop_rate=a["drop"].sum() / a["arrival"].sum(),
             throughput_bits=a["mu"].mean(),
             episode_return=float(np.sum(self.rewards)),
@@ -162,5 +164,6 @@ def rollout_policy(cfg: Config, policy, n_episodes: int, seed_base: Optional[int
         per_ep.append(acc.summary())
     keys = per_ep[0].keys()
     mean = {k: float(np.nanmean([e[k] for e in per_ep])) for k in keys}
+    mean["delay_slots"] = mean["backlog_bits"] / max(mean["admitted_bits"], 1e-12)
     std = {k: float(np.nanstd([e[k] for e in per_ep])) for k in keys}
     return mean, std, per_ep
